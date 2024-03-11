@@ -1,0 +1,2 @@
+git+https://github.com/oli2v/flight-radar.git@migrate-to-gcp
+apache-airflow[google]
