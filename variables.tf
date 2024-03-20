@@ -37,8 +37,8 @@ variable "dataproc_init_script_name" {
 variable "files" {
   type = map(string)
   default = {
-    "dags.py"          = "dags/dags.py",
-    "run.py"           = "dags/run.py"
-    "requirements.txt" = "dags/requirements.txt"
+    "dags/dags.py"          = "dags/dags.py",
+    "dags/run.py"           = "dags/run.py"
+    "dags/requirements.txt" = "dags/requirements.txt"
   }
 }
