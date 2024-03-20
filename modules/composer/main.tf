@@ -4,14 +4,14 @@ resource "google_service_account" "composer_service_account" {
   display_name = "Service Account for Composer Environment"
 }
 
-resource "google_project_iam_member" "composer_service_account" {
+resource "google_project_iam_member" "composer_service_account_composer_worker" {
   provider = google-beta
   project  = local.project_id
   member   = "serviceAccount:${google_service_account.composer_service_account.email}"
   role     = "roles/composer.worker"
 }
 
-resource "google_project_iam_member" "composer_service_account" {
+resource "google_project_iam_member" "composer_service_account_dataproc_editor" {
   provider = google-beta
   project  = local.project_id
   member   = "serviceAccount:${google_service_account.composer_service_account.email}"

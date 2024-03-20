@@ -52,6 +52,10 @@ resource "google_project_iam_member" "dataproc_service_account_bigquery_admin" {
   member  = "serviceAccount:${google_service_account.dataproc_service_account.email}"
 }
 
+module "composer" {
+  source = "../composer"
+}
+
 resource "google_dataproc_cluster" "flight_radar_cluster" {
   name    = "${local.project_name}-cluster"
   project = local.project_id
@@ -67,7 +71,7 @@ resource "google_dataproc_cluster" "flight_radar_cluster" {
         "cloud-platform"
       ]
       metadata = {
-        COMPOSER_BUCKET_NAME = google_storage_bucket.composer_bucket.name
+        COMPOSER_BUCKET_NAME = module.composer.composer_bucket_name
       }
     }
 
