@@ -1,3 +1,4 @@
 #!bin/bash
-gsutil cp gs://europe-west9-flight-radar-c-81396519-bucket/dags/requirements.txt .
+COMPOSER_BUCKET_NAME=$(/usr/share/google/get_metadata_value attributes/COMPOSER_BUCKET_NAME)
+gsutil cp gs://${COMPOSER_BUCKET_NAME}/dags/requirements.txt .
 pip3 install --upgrade -r requirements.txt
