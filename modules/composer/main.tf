@@ -51,6 +51,8 @@ resource "google_composer_environment" "composer_environment" {
         REGION                = local.region
         DATAPROC_CLUSTER_NAME = "${local.project_name}-cluster"
         COMPOSER_BUCKET_NAME  = "${local.project_name}-composer-bucket"
+        DATA_BUCKET_NAME      = "${local.project_name}-data-bucket"
+        BQ_DATASET_NAME       = "${replace(local.project_name, "-", "_")}_dataset"
       }
     }
 
