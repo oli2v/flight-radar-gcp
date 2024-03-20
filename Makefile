@@ -1,11 +1,17 @@
-start:
-	docker compose up -d
+tf-init:
+	terraform init
 
-run:
-	docker exec -it flight-radar-spark-worker-1 spark-submit --master spark://spark-master:7077 run.py
+tf-fmt-validate:
+	terraform fmt
+	terraform validate
 
-shutdown:
-	docker compose down
+tf-create:
+	terraform apply
 
-remove:
-	docker compose down --remove-orphans --volumes --rmi all
+build:
+	make tf-init
+	make tf-fmt-validate
+	make tf-create
+
+tf-clean:
+	rm -rf terraform.tfstate terraform.tfstate.backup .terraform.lock.hcl
