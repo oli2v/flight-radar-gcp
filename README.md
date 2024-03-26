@@ -6,7 +6,7 @@ This project implements and ELT (Extract, Load, Transform) pipeline using the Fl
 
 ## Pipeline architecture
 
-![Pipeline architecture](images/elt_pipeline_architecture_diagram.svg)
+![Pipeline architecture](https://github.com/oli2v/flight-radar-gcp/blob/main/images/pipeline_architecture_diagram.png)
 
 The pipeline is built in the Google Cloud Platform environment. It makes use of the following services:
 - Cloud Storage to store data
