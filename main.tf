@@ -35,6 +35,7 @@ module "dataproc" {
   source                       = "./modules/dataproc"
   dataproc_master_machine_type = "n2-standard-2"
   dataproc_worker_machine_type = "n2-standard-2"
+  composer_bucket_name         = module.composer.composer_bucket_name
 }
 
 resource "google_bigquery_dataset" "dataset" {

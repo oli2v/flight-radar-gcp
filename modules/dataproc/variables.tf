@@ -33,3 +33,8 @@ variable "dataproc_init_script_name" {
   description = "Name of the initialization script"
   default     = "initialize_cluster.sh"
 }
+
+variable "composer_bucket_name" {
+  type        = string
+  description = "Name of composer bucket"
+}

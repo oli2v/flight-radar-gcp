@@ -94,5 +94,9 @@ resource "google_composer_environment" "composer_environment" {
   storage_config {
     bucket = google_storage_bucket.composer_bucket.name
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 

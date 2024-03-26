@@ -6,7 +6,7 @@ from airflow.providers.google.cloud.operators.dataproc import DataprocSubmitJobO
 
 
 WORFKLOW_DAG_ID = "flight_radar_dag"
-WORFKFLOW_START_DATE = datetime.date.today()
+WORFKFLOW_START_DATE = datetime.datetime(2024, 3, 19)
 WORKFLOW_SCHEDULE_INTERVAL = "0 */2 * * *"
 
 WORKFLOW_DEFAULT_ARGS = {
@@ -19,11 +19,21 @@ PROJECT_ID = os.getenv("PROJECT_ID")
 REGION = os.getenv("REGION")
 DATAPROC_CLUSTER_NAME = os.getenv("DATAPROC_CLUSTER_NAME")
 COMPOSER_BUCKET_NAME = os.getenv("COMPOSER_BUCKET_NAME")
+DATA_BUCKET_NAME = os.getenv("DATA_BUCKET_NAME")
+BQ_DATASET_NAME = os.getenv("BQ_DATASET_NAME")
+
+JOB_PROPERTIES = {
+    "spark.executorEnv.DATA_BUCKET_NAME": DATA_BUCKET_NAME,
+    "spark.executorEnv.BQ_DATASET_NAME": BQ_DATASET_NAME,
+}
 
 PYSPARK_JOB = {
     "reference": {"project_id": PROJECT_ID},
     "placement": {"cluster_name": DATAPROC_CLUSTER_NAME},
-    "pyspark_job": {"main_python_file_uri": f"gs://{COMPOSER_BUCKET_NAME}/dags/run.py"},
+    "pyspark_job": {
+        "main_python_file_uri": f"gs://{COMPOSER_BUCKET_NAME}/dags/run.py",
+        "properties": JOB_PROPERTIES,
+    },
 }
 
 dag = DAG(
