@@ -6,6 +6,8 @@ This project implements and ELT (Extract, Load, Transform) pipeline using the Fl
 
 ## Pipeline architecture
 
+![Pipeline architecture](images/elt_pipeline_architecture_diagram.svg)
+
 The pipeline is built in the Google Cloud Platform environment. It makes use of the following services:
 - Cloud Storage to store data
 - Dataproc to run PySpark jobs
