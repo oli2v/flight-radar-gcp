@@ -4,14 +4,14 @@ resource "google_service_account" "composer_service_account" {
   display_name = "Service Account for Composer Environment"
 }
 
-resource "google_project_iam_member" "composer_service_account" {
+resource "google_project_iam_member" "composer_service_account_composer_worker" {
   provider = google-beta
   project  = local.project_id
   member   = "serviceAccount:${google_service_account.composer_service_account.email}"
   role     = "roles/composer.worker"
 }
 
-resource "google_project_iam_member" "composer_service_account" {
+resource "google_project_iam_member" "composer_service_account_dataproc_editor" {
   provider = google-beta
   project  = local.project_id
   member   = "serviceAccount:${google_service_account.composer_service_account.email}"
@@ -26,9 +26,10 @@ resource "google_service_account_iam_member" "composer_service_account" {
 }
 
 resource "google_storage_bucket" "composer_bucket" {
-  name     = "${local.project_name}-composer-bucket"
-  project  = local.project_id
-  location = local.region
+  name          = "${local.project_name}-composer-bucket"
+  project       = local.project_id
+  location      = local.region
+  force_destroy = true
 }
 
 resource "google_storage_bucket_object" "dag_files" {
@@ -51,6 +52,8 @@ resource "google_composer_environment" "composer_environment" {
         REGION                = local.region
         DATAPROC_CLUSTER_NAME = "${local.project_name}-cluster"
         COMPOSER_BUCKET_NAME  = "${local.project_name}-composer-bucket"
+        DATA_BUCKET_NAME      = "${local.project_name}-data-bucket"
+        BQ_DATASET_NAME       = "${replace(local.project_name, "-", "_")}_dataset"
       }
     }
 
@@ -91,6 +94,10 @@ resource "google_composer_environment" "composer_environment" {
   }
   storage_config {
     bucket = google_storage_bucket.composer_bucket.name
+  }
+
+  lifecycle {
+    prevent_destroy = true
   }
 }
 

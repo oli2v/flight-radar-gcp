@@ -34,11 +34,7 @@ variable "dataproc_init_script_name" {
   default     = "initialize_cluster.sh"
 }
 
-variable "files" {
-  type = map(string)
-  default = {
-    "dags/dags.py"          = "dags/dags.py",
-    "dags/run.py"           = "dags/run.py"
-    "dags/requirements.txt" = "dags/requirements.txt"
-  }
+variable "composer_bucket_name" {
+  type        = string
+  description = "Name of composer bucket"
 }

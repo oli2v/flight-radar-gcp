@@ -26,9 +26,26 @@ provider "google-beta" {
   region  = local.region
 }
 
-data "google_project" "project" {
+
+module "composer" {
+  source = "./modules/composer"
 }
 
-output "project_number" {
-  value = data.google_project.project.number
+module "dataproc" {
+  source                       = "./modules/dataproc"
+  dataproc_master_machine_type = "n2-standard-2"
+  dataproc_worker_machine_type = "n2-standard-2"
+  composer_bucket_name         = module.composer.composer_bucket_name
+}
+
+resource "google_bigquery_dataset" "dataset" {
+  dataset_id = "${replace(local.project_name, "-", "_")}_dataset"
+  location   = local.region
+}
+
+resource "google_storage_bucket" "data_bucket" {
+  name          = "${local.project_name}-data-bucket"
+  project       = local.project_id
+  location      = local.region
+  force_destroy = true
 }

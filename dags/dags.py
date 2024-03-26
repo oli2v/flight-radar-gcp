@@ -4,8 +4,9 @@ import datetime
 from airflow.models import DAG
 from airflow.providers.google.cloud.operators.dataproc import DataprocSubmitJobOperator
 
+
 WORFKLOW_DAG_ID = "flight_radar_dag"
-WORFKFLOW_START_DATE = datetime.date.today()
+WORFKFLOW_START_DATE = datetime.datetime(2024, 3, 19)
 WORKFLOW_SCHEDULE_INTERVAL = "0 */2 * * *"
 
 WORKFLOW_DEFAULT_ARGS = {
@@ -13,13 +14,6 @@ WORKFLOW_DEFAULT_ARGS = {
     "start_date": WORFKFLOW_START_DATE,
     "retries": 0,
 }
-
-dag = DAG(
-    dag_id=WORFKLOW_DAG_ID,
-    schedule_interval=WORKFLOW_SCHEDULE_INTERVAL,
-    default_args=WORKFLOW_DEFAULT_ARGS,
-    catchup=False,
-)
 
 PROJECT_ID = os.getenv("PROJECT_ID")
 REGION = os.getenv("REGION")
@@ -29,8 +23,18 @@ COMPOSER_BUCKET_NAME = os.getenv("COMPOSER_BUCKET_NAME")
 PYSPARK_JOB = {
     "reference": {"project_id": PROJECT_ID},
     "placement": {"cluster_name": DATAPROC_CLUSTER_NAME},
-    "pyspark_job": {"main_python_file_uri": f"gs://{COMPOSER_BUCKET_NAME}/dags/run.py"},
+    "pyspark_job": {
+        "main_python_file_uri": f"gs://{COMPOSER_BUCKET_NAME}/dags/run.py",
+    },
 }
+
+dag = DAG(
+    dag_id=WORFKLOW_DAG_ID,
+    schedule_interval=WORKFLOW_SCHEDULE_INTERVAL,
+    default_args=WORKFLOW_DEFAULT_ARGS,
+    catchup=False,
+)
+
 
 pyspark_task = DataprocSubmitJobOperator(
     task_id="pyspark_task",
