@@ -6,7 +6,7 @@ This project implements and ELT (Extract, Load, Transform) pipeline using the Fl
 
 ## Pipeline architecture
 
-![Pipeline architecture](https://github.com/oli2v/flight-radar-gcp/blob/main/images/pipeline_architecture_diagram.png)
+![Pipeline architecture](https://github.com/oli2v/flight-radar-gcp/blob/main/images/elt_pipeline_architecture_diagram.svg)
 
 The pipeline is built in the Google Cloud Platform environment. It makes use of the following services:
 - Cloud Storage to store data
@@ -14,9 +14,9 @@ The pipeline is built in the Google Cloud Platform environment. It makes use of 
 - BigQuery to query data
 - Cloud Composer Environment to orchestrate the whole pipeline
 
-The pipeline is materialized by a DAG within a Cloud Composer Environment. The DAG is triggered every 2 hours to run a PySpark job in a Dataproc cluster. The PySpark job runs requests upon FlightRadar24 API, stores raw data as a timestamped .json file into a Cloud Storage bucket blob (bronze), normalize raw data, stores them as partitioned .parquet files in another blob of the same bucket (silver) and eventually loads the data into a BigQuery dataset.
+The pipeline is materialized by a DAG within a Cloud Composer Environment. The DAG is triggered every 2 hours to run a PySpark job in a Dataproc cluster. The PySpark job runs requests upon FlightRadar24 API (step 2), stores raw data as a timestamped .json file into a Cloud Storage bucket, normalizes raw data, stores them as partitioned .parquet files in the same bucket (step 3) and eventually loads the data into a BigQuery dataset (step 4).
 
-The cloud infrastructure is mainly built with Terraform and analyses are performed within dbt Cloud.
+The cloud infrastructure is mainly built with Terraform (step 1) and transformations are performed within dbt Cloud (step 5).
 
 ## Usage
 
