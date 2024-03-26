@@ -26,9 +26,10 @@ resource "google_service_account_iam_member" "composer_service_account" {
 }
 
 resource "google_storage_bucket" "composer_bucket" {
-  name     = "${local.project_name}-composer-bucket"
-  project  = local.project_id
-  location = local.region
+  name          = "${local.project_name}-composer-bucket"
+  project       = local.project_id
+  location      = local.region
+  force_destroy = true
 }
 
 resource "google_storage_bucket_object" "dag_files" {

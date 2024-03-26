@@ -1,18 +1,20 @@
 resource "google_storage_bucket" "dataproc_staging_bucket" {
-  name     = "${local.project_name}-dataproc-staging-bucket"
-  location = local.region
+  name          = "${local.project_name}-dataproc-staging-bucket"
+  location      = local.region
+  force_destroy = true
 }
 
 resource "google_storage_bucket" "dataproc_temp_bucket" {
-  name     = "${local.project_name}-dataproc-temp-bucket"
-  location = local.region
+  name          = "${local.project_name}-dataproc-temp-bucket"
+  location      = local.region
+  force_destroy = true
 }
 
 resource "google_storage_bucket" "dataproc_init_bucket" {
-  name     = "${local.project_name}-dataproc-init-bucket"
-  location = local.region
-
+  name                        = "${local.project_name}-dataproc-init-bucket"
+  location                    = local.region
   uniform_bucket_level_access = true
+  force_destroy               = true
 }
 
 resource "google_storage_bucket_object" "initialization_script" {
@@ -22,16 +24,14 @@ resource "google_storage_bucket_object" "initialization_script" {
 }
 
 resource "google_service_account" "dataproc_service_account" {
-  provider     = google-beta
   account_id   = "dataproc-service-account"
   display_name = "Service Account for Dataproc cluster"
 }
 
 resource "google_project_iam_member" "dataproc_service_account" {
-  provider = google-beta
-  project  = local.project_id
-  member   = "serviceAccount:${google_service_account.dataproc_service_account.email}"
-  role     = "roles/dataproc.worker"
+  project = local.project_id
+  role    = "roles/dataproc.worker"
+  member  = "serviceAccount:${google_service_account.dataproc_service_account.email}"
 }
 
 resource "google_project_iam_member" "dataproc_service_account_storage_admin" {

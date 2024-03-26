@@ -13,6 +13,7 @@ tf-create:
 	terraform apply
 
 build:
+	make tf-clean
 	make tf-init
 	make tf-fmt-validate
 	make tf-create

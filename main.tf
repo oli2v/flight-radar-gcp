@@ -44,7 +44,8 @@ resource "google_bigquery_dataset" "dataset" {
 }
 
 resource "google_storage_bucket" "data_bucket" {
-  name     = "${local.project_name}-data-bucket"
-  project  = local.project_id
-  location = local.region
+  name          = "${local.project_name}-data-bucket"
+  project       = local.project_id
+  location      = local.region
+  force_destroy = true
 }
