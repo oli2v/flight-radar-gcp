@@ -41,6 +41,10 @@ module "dataproc" {
 resource "google_bigquery_dataset" "dataset" {
   dataset_id = "${replace(local.project_name, "-", "_")}_dataset"
   location   = local.region
+
+  lifecycle {
+    ignore_changes = all
+  }
 }
 
 resource "google_storage_bucket" "data_bucket" {
@@ -48,4 +52,8 @@ resource "google_storage_bucket" "data_bucket" {
   project       = local.project_id
   location      = local.region
   force_destroy = true
+
+  lifecycle {
+    ignore_changes = all
+  }
 }

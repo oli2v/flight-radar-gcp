@@ -97,7 +97,7 @@ resource "google_composer_environment" "composer_environment" {
   }
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 
