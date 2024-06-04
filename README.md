@@ -2,7 +2,7 @@
 
 ## About the project
 
-This project implements and ELT (Extract, Load, Transform) pipeline using the FlightRadar24 API which exposes real-time flights data, airports and airlines data.
+This project implements an ELT (Extract, Load, Transform) pipeline using the FlightRadar24 API which exposes real-time flights data, airports and airlines data.
 
 ## Pipeline architecture
 
